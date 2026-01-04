@@ -5,6 +5,7 @@ import { vulnerabilities } from '@/data/vulnerabilities';
 import * as Icons from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 export default function RedTeamPage() {
   const [mounted, setMounted] = useState(false);
@@ -84,7 +85,10 @@ export default function RedTeamPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* LLM 自动红队 */}
-            <div className="group bg-white rounded-xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 hover:-translate-y-1">
+            <Link
+              href="#"
+              className="group bg-white rounded-xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 hover:-translate-y-1 cursor-pointer"
+            >
               <div className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center mb-4 group-hover:bg-red-100 transition-colors">
                 <Icons.Zap className="w-6 h-6 text-red-600" />
               </div>
@@ -98,10 +102,13 @@ export default function RedTeamPage() {
                   持续运行
                 </span>
               </div>
-            </div>
+            </Link>
 
             {/* 漏洞响应中心 */}
-            <div className="group bg-white rounded-xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 hover:-translate-y-1">
+            <Link
+              href="#"
+              className="group bg-white rounded-xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 hover:-translate-y-1 cursor-pointer"
+            >
               <div className="w-12 h-12 bg-orange-50 rounded-lg flex items-center justify-center mb-4 group-hover:bg-orange-100 transition-colors">
                 <Icons.AlertTriangle className="w-6 h-6 text-orange-600" />
               </div>
@@ -115,10 +122,13 @@ export default function RedTeamPage() {
                   社区驱动
                 </span>
               </div>
-            </div>
+            </Link>
 
             {/* Eval Anything */}
-            <div className="group bg-white rounded-xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 hover:-translate-y-1">
+            <Link
+              href="#"
+              className="group bg-white rounded-xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 hover:-translate-y-1 cursor-pointer"
+            >
               <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mb-4 group-hover:bg-blue-100 transition-colors">
                 <Icons.BarChart3 className="w-6 h-6 text-blue-600" />
               </div>
@@ -132,10 +142,13 @@ export default function RedTeamPage() {
                   全模态支持
                 </span>
               </div>
-            </div>
+            </Link>
 
             {/* 欺骗检测平台 */}
-            <div className="group bg-white rounded-xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 hover:-translate-y-1">
+            <Link
+              href="#"
+              className="group bg-white rounded-xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 hover:-translate-y-1 cursor-pointer"
+            >
               <div className="w-12 h-12 bg-purple-50 rounded-lg flex items-center justify-center mb-4 group-hover:bg-purple-100 transition-colors">
                 <Icons.Eye className="w-6 h-6 text-purple-600" />
               </div>
@@ -149,7 +162,7 @@ export default function RedTeamPage() {
                   实时监控
                 </span>
               </div>
-            </div>
+            </Link>
           </div>
         </div>
       </section>
@@ -227,24 +240,6 @@ export default function RedTeamPage() {
                 </tbody>
               </table>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 bg-gray-900 text-white">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-6">准备好测试您的模型了吗？</h2>
-          <p className="text-gray-400 mb-8 text-lg">
-            加入 FlagSafe 红队计划，利用最前沿的攻击技术发现潜在风险，构建更安全的 AI 未来。
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-bold transition-colors">
-              申请红队测试服务
-            </button>
-            <button className="bg-transparent border border-gray-600 hover:bg-gray-800 text-white px-8 py-3 rounded-lg font-medium transition-colors">
-              联系商务团队
-            </button>
           </div>
         </div>
       </section>

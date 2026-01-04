@@ -15,7 +15,7 @@ export default function ResearchPage() {
   return (
     <main className="bg-white">
       {/* Hero Header */}
-      <header className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-purple-50/30 to-slate-50 pb-20 pt-20 lg:pt-24 border-b border-gray-100">
+      <header className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-purple-50/30 to-slate-50 pb-16 pt-20 lg:pt-24 border-b border-gray-100">
         {/* Animated Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
           <div className={`absolute top-10 right-10 w-96 h-96 bg-gradient-to-br from-purple-400/20 to-blue-400/20 rounded-full blur-3xl transition-all duration-1000 ${mounted ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`}></div>
@@ -31,10 +31,10 @@ export default function ResearchPage() {
             <span>前沿研究</span>
           </div>
 
-          <h1 className={`text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 transition-all duration-700 delay-100 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+          <h1 className={`text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 transition-all duration-700 delay-100 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
             前沿探索
           </h1>
-          <p className={`text-xl text-gray-600 max-w-3xl leading-relaxed transition-all duration-700 delay-200 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+          <p className={`text-lg text-gray-600 max-w-3xl leading-relaxed transition-all duration-700 delay-200 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
             基于北京AI安全国际共识的五大红线，FlagSafe 致力于开展前沿研究，构建全面的AI安全技术体系。
           </p>
         </div>
@@ -80,7 +80,6 @@ export default function ResearchPage() {
                     </h3>
                     <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all flex-shrink-0" />
                   </div>
-                  <p className="text-sm text-gray-500 mb-4 font-medium">{category.titleEn}</p>
                   <p className="text-gray-700 leading-relaxed mb-6">
                     {category.description}
                   </p>
@@ -119,7 +118,6 @@ export default function ResearchPage() {
                   <h3 className="text-base font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
                     {project.title}
                   </h3>
-                  <p className="text-xs text-gray-500 mb-2">{project.titleEn}</p>
                   {project.keyword && (
                     <p className="text-xs text-blue-600 mb-2">{project.keyword}</p>
                   )}

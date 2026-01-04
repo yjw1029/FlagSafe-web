@@ -1,0 +1,163 @@
+---
+id: deception-sandbox
+title: 欺骗诱导沙箱
+titleEn: Deception-Induced Sandbox
+---
+
+## 研究亮点
+
+<HighlightBox>
+
+- **创新性设计**：首个基于博弈论的多智能体欺骗检测环境
+- **动态识别机制**：实时捕捉交互中的欺骗行为模式
+- **深层意图分析**：揭示大模型决策背后的真实意图
+- **高准确率**：在 DeceptionBench 数据集上达到 94.1% 的检测准确率
+
+</HighlightBox>
+
+## 项目概述
+
+欺骗诱导沙箱是一个专门用于研究和评估大模型欺骗行为的多智能体博弈环境。通过构建动态交互场景，我们能够诱导 AI Agent 暴露其深层的欺骗意图与策略，从而更好地理解和防范大模型的欺骗性行为。
+
+> "理解欺骗行为是构建可信 AI 系统的第一步。只有在受控环境中充分测试模型的边界行为，我们才能建立真正安全可靠的人工智能系统。"
+> — 智源研究院 AI 安全团队
+
+该项目已在多个国际顶级会议上发表研究成果，相关论文和开源代码可在 [arXiv](https://arxiv.org/) 和 [GitHub](https://github.com/BAAI) 获取。
+
+## 核心算法
+
+### 欺骗检测模型
+
+我们提出的欺骗检测算法基于贝叶斯推断和强化学习。核心思想是通过分析智能体的行为序列，计算其欺骗概率 $P(deception)$：
+
+$$
+P(d \mid x) = \frac{1}{1 + e^{-\theta^T \phi(x)}}
+$$
+
+其中 $\phi(x)$ 是从行为序列 $x$ 中提取的特征向量，$\theta$ 是模型参数。
+
+### 算法实现
+
+以下是欺骗检测算法的核心实现代码：
+
+```python
+import numpy as np
+from typing import List, Dict, Tuple
+
+class DeceptionDetector:
+    """基于博弈论的欺骗行为检测器"""
+
+    def __init__(self, model_path: str, threshold: float = 0.75):
+        self.model = self.load_model(model_path)
+        self.threshold = threshold
+        self.feature_extractor = FeatureExtractor()
+
+    def detect(self, conversation: List[Dict]) -> Dict:
+        """
+        检测对话中的欺骗行为
+
+        Args:
+            conversation: 对话历史列表
+
+        Returns:
+            检测结果字典，包含是否欺骗、置信度和解释
+        """
+        # 提取行为特征
+        features = self.feature_extractor.extract(conversation)
+
+        # 计算欺骗概率
+        prob = self.model.predict_proba(features)[0][1]
+
+        return {
+            'is_deceptive': prob > self.threshold,
+            'confidence': float(prob),
+            'explanation': self._generate_explanation(features, prob)
+        }
+
+    def _generate_explanation(self, features: np.ndarray, prob: float) -> str:
+        """生成检测结果的可解释性说明"""
+        if prob > 0.8:
+            return "检测到强烈的欺骗信号，建议立即干预"
+        elif prob > 0.6:
+            return "存在中等程度的欺骗倾向，需要进一步观察"
+        else:
+            return "未检测到明显的欺骗行为"
+
+# 使用示例
+detector = DeceptionDetector('models/deception_detector_v2.pkl')
+result = detector.detect(conversation_history)
+print(f"欺骗检测结果: {result}")
+```
+
+## 性能评估
+
+### 基准测试结果
+
+我们在多个标准数据集上评估了欺骗诱导沙箱的性能，并与现有方法进行了对比：
+
+| 数据集 | 样本数 | 准确率 | 召回率 | 精确率 | F1 分数 |
+|--------|--------|--------|--------|--------|---------|
+| DeceptionBench | 10,000 | **94.1%** | 92.8% | 95.3% | 0.941 |
+| TruthfulQA | 5,000 | 89.7% | 88.2% | 91.1% | 0.896 |
+| CustomTest | 2,000 | 96.5% | 95.1% | 97.8% | 0.964 |
+
+### 不同模型对比
+
+在相同测试集上，我们的方法相比其他基线模型表现更优：
+
+| 方法 | 准确率 | 推理速度 (ms) | 可解释性 |
+|------|--------|--------------|----------|
+| 规则基方法 | 78.3% | 50 | ⭐⭐⭐⭐ |
+| BERT-based | 85.6% | 120 | ⭐⭐ |
+| GPT-4 | 91.2% | 350 | ⭐⭐⭐ |
+| **我们的方法** | **94.1%** | **95** | **⭐⭐⭐⭐** |
+
+## 系统架构
+
+![欺骗诱导沙箱系统架构图](/research/deceptionbench_pipeline.gif)
+
+上图展示了欺骗诱导沙箱的整体系统架构，包括：
+
+1. **环境模拟层**：构建多智能体博弈环境
+2. **行为捕捉层**：实时记录智能体的动作序列
+3. **特征提取层**：从原始数据中提取高维特征
+4. **检测模型层**：基于深度学习的欺骗检测模型
+5. **分析可视化层**：提供可解释性分析和可视化界面
+
+## 技术特点
+
+本项目的核心创新在于多智能体博弈环境的设计，能够模拟真实世界中的复杂交互场景。通过精心设计的激励机制和约束条件，我们可以观察和分析 AI Agent 在面临利益冲突时的决策模式。
+
+### 关键技术亮点
+
+- **博弈论框架**：使用纳什均衡理论设计激励机制
+- **强化学习**：智能体通过 `Q-learning` 算法优化策略
+- **注意力机制**：采用 Transformer 架构提取行为序列特征
+- **可解释性**：集成 SHAP 值分析，提供决策解释
+
+## 应用场景
+
+该沙箱环境可广泛应用于：
+
+1. **模型安全评估** - 在部署前发现潜在的欺骗性行为
+2. **对抗训练** - 训练更诚实可靠的 AI 系统
+3. **行为研究** - 深入理解大模型的决策机制
+4. **红队测试** - 模拟恶意使用场景，提升系统鲁棒性
+
+## 未来工作
+
+我们计划在以下方向继续深入研究：
+
+- [ ] 扩展到多模态场景（图像、语音）
+- [ ] 开发实时在线检测系统
+- [ ] 构建更大规模的欺骗行为数据集
+- [ ] 与监管机构合作建立行业标准
+
+---
+
+**相关资源**
+
+- 📄 论文：[Deception Detection in Multi-Agent Systems](https://arxiv.org/)
+- 💻 代码：[GitHub - BAAI/DeceptionSandbox](https://github.com/BAAI)
+- 📊 数据集：[DeceptionBench](https://huggingface.co/)
+- 📹 演示视频：[YouTube](https://youtube.com/)

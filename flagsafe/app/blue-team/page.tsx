@@ -2,6 +2,7 @@
 
 import { Shield, Activity, CheckCircle, FileText, ArrowRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 export default function BlueTeamPage() {
   const [mounted, setMounted] = useState(false);
@@ -96,9 +97,10 @@ export default function BlueTeamPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {defenseFeatures.map((feature, idx) => (
-              <div
+              <Link
                 key={idx}
-                className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100"
+                href="#"
+                className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 cursor-pointer hover:-translate-y-1"
               >
                 <div className="w-14 h-14 bg-blue-50 rounded-xl flex items-center justify-center mb-6">
                   <feature.icon className="w-7 h-7 text-blue-600" />
@@ -115,7 +117,7 @@ export default function BlueTeamPage() {
                     </div>
                   ))}
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -146,24 +148,6 @@ export default function BlueTeamPage() {
                 )}
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-20 bg-blue-600 text-white">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-6">构建您的安全防线</h2>
-          <p className="text-blue-100 mb-8 text-lg">
-            我们提供企业级的安全防御解决方案，保护您的大模型应用免受威胁。
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <button className="bg-white text-blue-600 px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition-colors">
-              预约演示
-            </button>
-            <button className="bg-transparent border-2 border-white hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium transition-colors">
-              联系我们
-            </button>
           </div>
         </div>
       </section>

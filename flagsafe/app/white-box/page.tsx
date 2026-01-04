@@ -2,6 +2,7 @@
 
 import { Microscope, Eye, GitBranch, Zap, FileText, ArrowRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 export default function WhiteBoxPage() {
   const [mounted, setMounted] = useState(false);
@@ -100,10 +101,13 @@ export default function WhiteBoxPage() {
           </p>
 
           <div className={`flex flex-col sm:flex-row justify-center gap-4 transition-all duration-700 delay-400 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-            <button className="inline-flex items-center justify-center gap-2 bg-purple-600 text-white px-8 py-4 rounded-xl font-semibold hover:bg-purple-700 transition-all shadow-lg shadow-purple-200 hover:shadow-xl hover:shadow-purple-300 hover:-translate-y-0.5">
+            <Link
+              href="#"
+              className="inline-flex items-center justify-center gap-2 bg-purple-600 text-white px-8 py-4 rounded-xl font-semibold hover:bg-purple-700 transition-all shadow-lg shadow-purple-200 hover:shadow-xl hover:shadow-purple-300 hover:-translate-y-0.5"
+            >
               <Eye className="w-4 h-4" />
-              启动可视化调试
-            </button>
+              进入机理分析平台
+            </Link>
             <button className="inline-flex items-center justify-center gap-2 bg-white text-gray-700 border-2 border-gray-200 px-8 py-4 rounded-xl font-semibold hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5">
               <FileText className="w-4 h-4" />
               技术文档
@@ -211,24 +215,6 @@ export default function WhiteBoxPage() {
                 <div className="text-sm text-gray-600">{tech.desc}</div>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-20 bg-gradient-to-br from-purple-600 to-purple-800 text-white">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-6">探索模型内部世界</h2>
-          <p className="text-purple-100 mb-8 text-lg">
-            使用白盒透视技术，深入理解您的大模型，优化性能，提升安全性。
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <button className="bg-white text-purple-600 px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition-colors">
-              预约演示
-            </button>
-            <button className="bg-transparent border-2 border-white hover:bg-purple-700 text-white px-8 py-3 rounded-lg font-medium transition-colors">
-              下载技术白皮书
-            </button>
           </div>
         </div>
       </section>

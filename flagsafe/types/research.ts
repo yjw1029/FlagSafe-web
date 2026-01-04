@@ -15,6 +15,7 @@ export interface ResearchProject {
   authors?: string[];
   venue?: string;
   year?: number;
+  contentPath?: string; // MDX 文件路径（如 'deception-sandbox'）
 }
 
 export interface ResearchCategory {

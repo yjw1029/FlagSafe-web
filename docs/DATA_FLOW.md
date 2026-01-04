@@ -1,6 +1,6 @@
 # 数据流说明
 
-> 版本: 1.0 | 更新日期: 2025-12-30
+> 版本: 1.1 | 更新日期: 2025-12-31
 
 [← 返回文档中心](./README.md)
 
@@ -13,20 +13,60 @@
 │  1. 数据定义     │  data/research.ts
 │  - 定义类型     │  types/research.ts
 │  - 创建数据     │  export const projects = [...]
+│  - 指定 contentPath │ contentPath: 'project-id'
 └────────┬────────┘
          │
          ▼
 ┌─────────────────┐
-│  2. 组件导入     │  components/ResearchSection.tsx
+│  2. 内容文件     │  content/research/project-id.mdx
+│  - Frontmatter  │  ---\nid: project-id\ntitle: ...\n---
+│  - MDX 内容     │  ## 标题\n内容...\n<Component />
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│  3. 组件导入     │  components/ResearchSection.tsx
 │  - import data  │  import { researchProjects } from '@/data/research'
 │  - 类型检查     │  TypeScript 自动验证
 └────────┬────────┘
          │
          ▼
 ┌─────────────────┐
-│  3. 页面渲染     │  app/research/page.tsx
+│  4. 页面渲染     │  app/research/page.tsx
 │  - 使用组件     │  <ResearchSection />
-│  - 展示数据     │  自动渲染数据
+│  - 展示数据     │  自动渲染项目列表
+└─────────────────┘
+
+【研究项目详情页流程】
+┌─────────────────┐
+│  5. 详情页请求   │  /research/deception/project-id
+│  - 解析 params  │  await params
+│  - 查询项目     │  getProjectById(projectId)
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│  6. MDX 加载     │  lib/mdx.ts
+│  - 读取文件     │  fs.readFileSync(filePath)
+│  - 解析 Frontmatter │ gray-matter(fileContents)
+│  - 返回内容     │  { content, frontmatter }
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│  7. MDX 渲染     │  next-mdx-remote/rsc
+│  - 编译 MDX     │  MDXRemote component
+│  - 应用插件     │  remarkGfm, remarkMath, rehypeKatex
+│  - 组件映射     │  getMDXComponents()
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│  8. 最终输出     │  HTML with React components
+│  - Prose 样式   │  Tailwind Typography
+│  - 自定义组件   │  <HighlightBox />
+│  - 代码高亮     │  highlight.js
+│  - 数学公式     │  KaTeX
 └─────────────────┘
 ```
 
@@ -189,6 +229,84 @@ import { newsItems } from '@/data/news';
 ### 修改现有数据
 
 直接编辑 `data/` 目录下的对应文件即可，类型系统会自动验证。
+
+---
+
+## 研究项目详情页数据流
+
+### 完整流程图
+
+```
+用户访问 /research/deception/deception-sandbox
+         ↓
+app/research/[category]/[project]/page.tsx
+         ↓
+await params → { category: 'deception', project: 'deception-sandbox' }
+         ↓
+getProjectById('deception-sandbox')
+         ↓
+从 data/research.ts 获取项目元数据 { id, title, contentPath, ... }
+         ↓
+project.contentPath = 'deception-sandbox'
+         ↓
+getProjectContent('deception-sandbox')
+         ↓
+lib/mdx.ts: 读取 content/research/deception-sandbox.mdx
+         ↓
+gray-matter 解析 Frontmatter 和 Markdown 内容
+         ↓
+返回 { content: "## 标题...", frontmatter: { id, title } }
+         ↓
+<MDXRemote source={content} components={getMDXComponents()} />
+         ↓
+next-mdx-remote/rsc 编译 MDX
+         ↓
+应用 remark/rehype 插件:
+  - remarkGfm (表格、任务列表)
+  - remarkMath (数学公式解析)
+  - rehypeKatex (LaTeX 渲染)
+  - rehypeHighlight (代码高亮)
+         ↓
+组件映射:
+  - <HighlightBox> → components/mdx/HighlightBox.tsx
+  - h1, h2, code → 自定义样式组件
+         ↓
+最终渲染输出 (HTML + React Components)
+```
+
+### 关键代码示例
+
+```typescript
+// 1. 项目元数据 (data/research.ts)
+{
+  id: 'deception-sandbox',
+  categoryId: 'deception',
+  titleZh: '欺骗诱导沙箱',
+  contentPath: 'deception-sandbox',  // 关联 MDX 文件
+  featured: true
+}
+
+// 2. MDX 文件 (content/research/deception-sandbox.mdx)
+---
+id: deception-sandbox
+title: 欺骗诱导沙箱
+---
+
+## 研究亮点
+
+<HighlightBox>
+- 亮点 1
+</HighlightBox>
+
+// 3. 页面组件 (app/research/[category]/[project]/page.tsx)
+const mdxContent = await getProjectContent(project.contentPath);
+
+<MDXRemote
+  source={mdxContent.content}
+  components={getMDXComponents()}
+  options={{ mdxOptions: { remarkPlugins, rehypePlugins } }}
+/>
+```
 
 ---
 

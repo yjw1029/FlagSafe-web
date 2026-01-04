@@ -22,13 +22,40 @@ export default function Navbar() {
         { href: '/research/deception/agent-deception', label: 'Agent欺骗检测' },
         { href: '/research/deception/text-deception', label: '纯文本欺骗检测' }
       ]
-    }
+    },
+    { href: '/research/self-replication', label: '自主复制或改进' },
+    { href: '/research/power-seeking', label: '权力寻求' },
+    { href: '/research/weaponization', label: '协助武器制造' },
+    { href: '/research/cyberattack', label: '网络安全' }
   ];
 
   const platformItems = [
-    { href: '/red-team', label: '红队演练' },
-    { href: '/blue-team', label: '蓝队防御' },
-    { href: '/white-box', label: '白盒透视' }
+    {
+      href: '/red-team',
+      label: '红队演练',
+      submenu: [
+        { href: '#', label: 'LLM自动红队' },
+        { href: '#', label: '漏洞响应中心' },
+        { href: '#', label: 'Eval Anything' },
+        { href: '#', label: '欺骗检测平台' }
+      ]
+    },
+    {
+      href: '/blue-team',
+      label: '蓝队防御',
+      submenu: [
+        { href: '#', label: '网络空间风险监测' },
+        { href: '#', label: 'Align Anything对齐框架' },
+        { href: '#', label: '毒性与欺骗防御' }
+      ]
+    },
+    {
+      href: '/white-box',
+      label: '白盒透视',
+      submenu: [
+        { href: '#', label: '机理分析平台' }
+      ]
+    }
   ];
 
   const handleSubmenuMouseEnter = (label: string) => {
@@ -71,7 +98,7 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
             <img
-              src="/baai-logo.png"
+              src="/logos/baai-logo.png"
               alt="BAAI Logo"
               className="w-9 h-9"
             />
@@ -169,15 +196,51 @@ export default function Navbar() {
               </button>
               {activeDropdown === 'platform' && (
                 <div className="absolute top-full left-0 pt-2">
-                  <div className="w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 animate-fadeIn">
-                    {platformItems.map((item) => (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
-                      >
-                        {item.label}
-                      </Link>
+                  <div className="w-44 bg-white rounded-lg shadow-lg border border-gray-200 py-2 animate-fadeIn">
+                    {platformItems.map((item, idx) => (
+                      <div key={idx}>
+                        {item.submenu ? (
+                          <div
+                            className="relative"
+                            onMouseEnter={() => handleSubmenuMouseEnter(item.label!)}
+                            onMouseLeave={handleSubmenuMouseLeave}
+                          >
+                            <Link
+                              href={item.href!}
+                              className="flex items-center justify-between px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                            >
+                              <span>{item.label}</span>
+                              <ChevronRight className="w-4 h-4 text-gray-400" />
+                            </Link>
+                            {activeSubmenu === item.label && (
+                              <div
+                                className="absolute left-full top-0 -ml-px"
+                                onMouseEnter={handleSubmenuAreaEnter}
+                                onMouseLeave={handleSubmenuMouseLeave}
+                              >
+                                <div className="w-52 bg-white rounded-lg shadow-lg border border-gray-200 py-2 animate-fadeIn">
+                                  {item.submenu.map((subItem) => (
+                                    <Link
+                                      key={subItem.href}
+                                      href={subItem.href}
+                                      className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                                    >
+                                      {subItem.label}
+                                    </Link>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        ) : (
+                          <Link
+                            href={item.href!}
+                            className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                          >
+                            {item.label}
+                          </Link>
+                        )}
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -264,15 +327,30 @@ export default function Navbar() {
               <div className="space-y-2">
                 <div className="text-sm font-medium text-gray-900">安全平台</div>
                 <div className="pl-4 space-y-2">
-                  {platformItems.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className="block text-sm text-gray-600 hover:text-blue-600 transition-colors"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      {item.label}
-                    </Link>
+                  {platformItems.map((item, idx) => (
+                    <div key={idx}>
+                      <Link
+                        href={item.href!}
+                        className="block text-sm text-gray-600 hover:text-blue-600 transition-colors"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        {item.label}
+                      </Link>
+                      {item.submenu && (
+                        <div className="pl-4 space-y-2 mt-2">
+                          {item.submenu.map((subItem) => (
+                            <Link
+                              key={subItem.href}
+                              href={subItem.href}
+                              className="block text-sm text-gray-600 hover:text-blue-600 transition-colors"
+                              onClick={() => setIsMenuOpen(false)}
+                            >
+                              {subItem.label}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   ))}
                 </div>
               </div>

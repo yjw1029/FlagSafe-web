@@ -35,17 +35,17 @@ const mediaArticles = [
   {
     title: 'CGTN｜Artificial Intelligence Safety: International dialogue on making AI safe',
     url: 'https://news.cgtn.com/news/2024-03-14/VHJhbnNjcmlwdDc3NzI1/index.html',
-    image: '/01.png'
+    image: '/media/cgtn.png'
   },
   {
     title: 'FT｜Chinese and western scientists identify \'red lines\' on AI risks',
     url: 'https://archive.md/6xhD6',
-    image: '/02.jpg'
+    image: '/media/ft.jpg'
   },
   {
     title: 'BRTV｜北京AI安全国际对话闭门论坛举办 《北京AI安全国际共识》发布',
     url: 'https://m.btime.com/item/261i43qvj9rqc5ocde1h9bkptap',
-    image: '/03.png'
+    image: '/media/brtv.png'
   }
 ];
 
@@ -78,7 +78,7 @@ export default function ConsensusPage() {
 
           <div className={`flex flex-col md:flex-row justify-between items-start md:items-center gap-4 transition-all duration-700 delay-100 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900">
-              {language === 'zh' ? '北京AI安全国际共识' : 'Beijing AI Safety International Consensus'}
+              北京AI安全国际共识
             </h1>
             <button
               onClick={() => setLanguage(language === 'zh' ? 'en' : 'zh')}

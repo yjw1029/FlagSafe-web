@@ -1,6 +1,6 @@
 # 项目概述与技术栈
 
-> 版本: 1.0 | 更新日期: 2025-12-30
+> 版本: 1.1 | 更新日期: 2025-12-31
 
 [← 返回文档中心](./README.md)
 
@@ -24,6 +24,7 @@
 - ✅ 使用 Next.js 16 App Router 架构
 - ✅ 完全 TypeScript 类型安全
 - ✅ Tailwind CSS 4 原子化样式
+- ✅ MDX 内容管理系统，支持富文本、代码、公式
 - ✅ 静态数据驱动，易于迁移到 API
 - ✅ 响应式设计，支持移动端
 
@@ -44,9 +45,17 @@
 
 ```json
 {
-  "lucide-react": "0.555.0",     // 图标库
-  "clsx": "^2.1.1",              // 样式条件合并
-  "tailwind-merge": "^2.6.0"     // Tailwind 类名合并
+  "lucide-react": "0.555.0",           // 图标库
+  "clsx": "^2.1.1",                    // 样式条件合并
+  "tailwind-merge": "^2.6.0",          // Tailwind 类名合并
+  "@mdx-js/mdx": "^3.1.0",             // MDX 编译器
+  "next-mdx-remote": "^5.0.0",         // 服务端 MDX 渲染
+  "gray-matter": "^4.0.3",             // Frontmatter 解析
+  "remark-gfm": "^4.0.0",              // GitHub Flavored Markdown
+  "remark-math": "^6.0.0",             // 数学公式支持
+  "rehype-katex": "^7.0.1",            // LaTeX 渲染
+  "rehype-highlight": "^7.0.1",        // 代码语法高亮
+  "@tailwindcss/typography": "^0.5.15" // Prose 样式
 }
 ```
 
@@ -111,6 +120,32 @@ export default function InteractiveComponent() {
   return <button onClick={() => setCount(count + 1)}>{count}</button>;
 }
 ```
+
+### 内容层设计
+
+研究项目内容采用 MDX 文件管理，存储在 `/content/research/` 目录：
+
+```
+content/research/
+├── deception-sandbox.mdx      # 欺骗诱导沙箱
+├── mllm-deception.mdx          # 多模态大模型欺骗
+├── agent-deception.mdx         # 智能体欺骗
+└── text-deception.mdx          # 文本欺骗
+```
+
+**MDX 功能支持：**
+- ✅ 标准 Markdown 语法（标题、列表、链接、图片）
+- ✅ GitHub Flavored Markdown（表格、任务列表）
+- ✅ 代码块语法高亮（支持 100+ 语言）
+- ✅ LaTeX 数学公式（行内和块级）
+- ✅ 自定义 React 组件（如 `<HighlightBox>`）
+- ✅ Frontmatter 元数据
+
+**内容加载流程：**
+1. 研究项目数据中定义 `contentPath` 字段
+2. 页面通过 `getProjectContent(contentPath)` 读取 MDX 文件
+3. 使用 `next-mdx-remote/rsc` 进行服务端渲染
+4. 支持 remark/rehype 插件扩展功能
 
 ---
 

@@ -20,11 +20,12 @@ export default function ResearchProjectLayout({ project, children }: ResearchPro
   return (
     <main className="bg-white">
       {/* Header */}
-      <header className="relative overflow-hidden border-b border-gray-100 bg-gradient-to-br from-slate-50 via-purple-50/20 to-slate-50 pb-12 pt-20 lg:pt-24">
+      <header className="relative overflow-hidden border-b border-gray-100 bg-gradient-to-br from-slate-50 via-purple-50/20 to-slate-50 pb-16 pt-20 lg:pt-24">
         {/* Subtle Background */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className={`absolute top-10 right-10 w-72 h-72 bg-gradient-to-br from-purple-300/15 to-blue-300/15 rounded-full blur-3xl transition-all duration-1000 ${mounted ? 'opacity-100' : 'opacity-0'}`}></div>
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+          <div className={`absolute top-10 right-10 w-96 h-96 bg-gradient-to-br from-purple-400/20 to-blue-400/20 rounded-full blur-3xl transition-all duration-1000 ${mounted ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`}></div>
+          <div className={`absolute -bottom-10 left-10 w-80 h-80 bg-gradient-to-tr from-blue-300/20 to-purple-300/20 rounded-full blur-3xl transition-all duration-1000 delay-300 ${mounted ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`}></div>
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
         </div>
 
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -41,16 +42,13 @@ export default function ResearchProjectLayout({ project, children }: ResearchPro
             <span>研究项目</span>
           </div>
 
-          <h1 className={`text-4xl md:text-5xl font-bold text-gray-900 mb-4 transition-all duration-700 delay-200 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+          <h1 className={`text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 transition-all duration-700 delay-200 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
             {project.title}
           </h1>
-          <p className={`text-xl text-gray-500 mb-8 transition-all duration-700 delay-300 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-            {project.titleEn}
-          </p>
 
           {/* 链接按钮 */}
           {project.links && (
-            <div className={`flex flex-wrap gap-3 transition-all duration-700 delay-400 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+            <div className={`flex flex-wrap gap-3 transition-all duration-700 delay-300 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
               {project.links.paper && (
                 <a
                   href={project.links.paper}
@@ -59,7 +57,7 @@ export default function ResearchProjectLayout({ project, children }: ResearchPro
                   className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all shadow-md hover:shadow-lg font-semibold"
                 >
                   <FileText className="w-4 h-4" />
-                  论文 Paper
+                  论文
                 </a>
               )}
               {project.links.code && (
@@ -70,7 +68,7 @@ export default function ResearchProjectLayout({ project, children }: ResearchPro
                   className="inline-flex items-center gap-2 px-6 py-3 border-2 border-gray-300 text-gray-700 bg-white rounded-xl hover:bg-gray-50 hover:border-gray-400 transition-all shadow-sm hover:shadow-md font-semibold"
                 >
                   <Code className="w-4 h-4" />
-                  代码 Code
+                  代码
                 </a>
               )}
               {project.links.dataset && (
@@ -81,7 +79,7 @@ export default function ResearchProjectLayout({ project, children }: ResearchPro
                   className="inline-flex items-center gap-2 px-6 py-3 border-2 border-gray-300 text-gray-700 bg-white rounded-xl hover:bg-gray-50 hover:border-gray-400 transition-all shadow-sm hover:shadow-md font-semibold"
                 >
                   <Database className="w-4 h-4" />
-                  数据集 Dataset
+                  数据集
                 </a>
               )}
               {project.links.demo && (
@@ -92,7 +90,7 @@ export default function ResearchProjectLayout({ project, children }: ResearchPro
                   className="inline-flex items-center gap-2 px-6 py-3 border-2 border-gray-300 text-gray-700 bg-white rounded-xl hover:bg-gray-50 hover:border-gray-400 transition-all shadow-sm hover:shadow-md font-semibold"
                 >
                   <Play className="w-4 h-4" />
-                  演示 Demo
+                  演示
                 </a>
               )}
             </div>
@@ -103,7 +101,7 @@ export default function ResearchProjectLayout({ project, children }: ResearchPro
       {/* Content */}
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Project Image */}
-        {project.image && (
+        {/* {project.image && (
           <div className="mb-12">
             <img
               src={project.image}
@@ -111,18 +109,15 @@ export default function ResearchProjectLayout({ project, children }: ResearchPro
               className="w-full rounded-lg shadow-lg"
             />
           </div>
-        )}
+        )} */}
 
         {/* Description */}
-        <section className="mb-12">
+        {/* <section className="mb-12">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">项目简介</h2>
-          <p className="text-gray-700 leading-relaxed text-lg mb-4">
+          <p className="text-gray-700 leading-relaxed text-lg">
             {project.description}
           </p>
-          <p className="text-gray-600 leading-relaxed">
-            {project.descriptionEn}
-          </p>
-        </section>
+        </section> */}
 
         {/* Custom Content */}
         {children}
