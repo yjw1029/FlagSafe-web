@@ -1,4 +1,7 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@import "katex/dist/katex.min.css";
+@import "highlight.js/styles/github-dark.css";
 
 :root {
   --background: #ffffff;
@@ -52,3 +55,58 @@ body {
 .animate-fadeIn {
   animation: fadeIn 0.15s ease-out;
 }
+
+/* Custom Prose Styles for MDX Content */
+.prose {
+  color: #374151;
+  max-width: none;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+  color: #111827;
+  font-weight: 700;
+}
+
+.prose a {
+  color: var(--baai-blue);
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+
+.prose a:hover {
+  color: var(--baai-blue-dark);
+}
+
+.prose code {
+  color: #dc2626;
+  background-color: #f3f4f6;
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+}
+
+.prose pre {
+  background-color: #1f2937;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+}
+
+.prose pre code {
+  background-color: transparent;
+  color: #e5e7eb;
+  padding: 0;
+}
+
+.prose img {
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.prose blockquote {
+  border-left-color: var(--baai-blue);
+  color: #6b7280;
+}
+

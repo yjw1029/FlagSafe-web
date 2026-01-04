@@ -1,6 +1,6 @@
 # 项目结构
 
-> 版本: 1.0 | 更新日期: 2025-12-30
+> 版本: 1.1 | 更新日期: 2025-12-31
 
 [← 返回文档中心](./README.md)
 
@@ -20,7 +20,7 @@ flagsafe/
 │   │   └── [category]/     # 动态类别路由
 │   │       ├── page.tsx    # 类别页面
 │   │       └── [project]/  # 动态项目路由
-│   │           └── page.tsx # 项目详情
+│   │           └── page.tsx # 项目详情（MDX 渲染）
 │   ├── red-team/           # 红队演练
 │   ├── blue-team/          # 蓝队防御
 │   ├── white-box/          # 白盒透视
@@ -35,7 +35,17 @@ flagsafe/
 │   ├── PlatformSection.tsx  # 平台模块
 │   ├── PartnersSection.tsx  # 合作伙伴
 │   ├── VulnReportCTA.tsx    # 漏洞报告 CTA
-│   └── ResearchProjectLayout.tsx # 研究项目布局
+│   ├── ResearchProjectLayout.tsx # 研究项目布局
+│   └── mdx/                # MDX 自定义组件
+│       ├── MDXComponents.tsx    # MDX 组件映射
+│       └── HighlightBox.tsx     # 研究亮点展示组件
+│
+├── content/                # MDX 内容文件
+│   └── research/           # 研究项目详细内容
+│       ├── deception-sandbox.mdx   # 欺骗诱导沙箱
+│       ├── mllm-deception.mdx      # 多模态大模型欺骗
+│       ├── agent-deception.mdx     # 智能体欺骗
+│       └── text-deception.mdx      # 文本欺骗
 │
 ├── data/                   # 数据层（Mock 数据）
 │   ├── redlines.ts         # AI 安全五大红线
@@ -50,7 +60,8 @@ flagsafe/
 │   └── research.ts         # 研究项目类型
 │
 ├── lib/                    # 工具函数
-│   └── utils.ts            # cn() 样式合并工具
+│   ├── utils.ts            # cn() 样式合并工具
+│   └── mdx.ts              # MDX 文件加载和编译
 │
 ├── public/                 # 静态资源
 │   ├── baai-logo.png       # BAAI Logo
@@ -58,7 +69,7 @@ flagsafe/
 │
 ├── package.json            # 项目依赖
 ├── tsconfig.json           # TypeScript 配置
-├── next.config.ts          # Next.js 配置
+├── next.config.ts          # Next.js 配置（含 MDX 插件）
 ├── postcss.config.mjs      # PostCSS 配置
 └── eslint.config.mjs       # ESLint 配置
 ```
@@ -71,6 +82,7 @@ flagsafe/
 |------|------|----------|
 | `app/` | 页面路由和布局 | 高 - 新增页面时修改 |
 | `components/` | 可复用 UI 组件 | 中 - 新增功能模块时修改 |
+| `content/` | MDX 内容文件 | 高 - 研究项目内容更新时修改 |
 | `data/` | 静态数据存储 | 高 - 内容更新时修改 |
 | `types/` | TypeScript 类型 | 中 - 新增数据结构时修改 |
 | `lib/` | 工具函数 | 低 - 很少修改 |
@@ -104,11 +116,15 @@ flagsafe/
 | 全局布局（导航栏/页脚） | `app/layout.tsx` |
 | 导航菜单 | `components/Navbar.tsx` |
 | 研究项目数据 | `data/research.ts` |
+| 研究项目内容 | `content/research/{项目ID}.mdx` |
+| MDX 自定义组件 | `components/mdx/MDXComponents.tsx` |
+| MDX 加载逻辑 | `lib/mdx.ts` |
 | 五大红线内容 | `data/redlines.ts` |
 | 合作伙伴 Logo | `data/partners.ts` + `public/` |
 | 新闻资讯 | `data/news.ts` |
 | 全局样式/主题色 | `app/globals.css` |
 | TypeScript 类型 | `types/index.ts`, `types/research.ts` |
+| Next.js 配置（MDX） | `next.config.ts` |
 | 路径别名配置 | `tsconfig.json` (paths) |
 | 依赖包管理 | `package.json` |
 
@@ -119,7 +135,7 @@ flagsafe/
 | 首页 (`/`) | HeroSection, ConsensusSection, ResearchSection, PlatformSection, PartnersSection | data/redlines.ts, data/research.ts, data/platform.ts, data/partners.ts |
 | 安全指南 (`/consensus`) | ConsensusSection | data/redlines.ts |
 | 研究总览 (`/research`) | ResearchSection | data/research.ts |
-| 研究项目详情 | ResearchProjectLayout | data/research.ts (getProjectById) |
+| 研究项目详情 | ResearchProjectLayout, MDXRemote | data/research.ts (getProjectById) + content/research/{项目ID}.mdx |
 | 平台模块页面 | PlatformSection | data/platform.ts |
 | 新闻资讯 (`/news`) | NewsSection | data/news.ts |
 

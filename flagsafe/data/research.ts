@@ -12,6 +12,7 @@ const deceptionProjects: ResearchProject[] = [
     description: '构建多智能体博弈环境，诱导 Agent 在动态交互中暴露深层的欺骗意图与策略。',
     descriptionEn: 'Building a multi-agent gaming environment to induce agents to expose deep deceptive intentions and strategies in dynamic interactions.',
     image: '/research/deception-sandbox.jpg',
+    contentPath: 'deception-sandbox',
     links: {
       paper: '#',
       code: '#',
@@ -28,6 +29,7 @@ const deceptionProjects: ResearchProject[] = [
     description: '针对图文多模态大模型，研究其在复杂场景下的视觉与文本欺骗行为识别。',
     descriptionEn: 'Research on visual and textual deception detection for multimodal large models in complex scenarios.',
     image: '/research/mllm-deception.jpg',
+    contentPath: 'mllm-deception',
     links: {
       paper: '#',
       code: '#',
@@ -42,6 +44,7 @@ const deceptionProjects: ResearchProject[] = [
     description: '针对AI Agent的欺骗行为检测，包括意图欺骗、行为欺骗等多个维度。',
     descriptionEn: 'Deception detection for AI Agents, including intent deception, behavioral deception and other dimensions.',
     image: '/research/agent-deception.jpg',
+    contentPath: 'agent-deception',
     links: {
       paper: '#',
       code: '#',
@@ -59,6 +62,7 @@ const deceptionProjects: ResearchProject[] = [
     description: '建立基于自我监控机制的标准化欺骗行为评估基准，量化模型诚实度。',
     descriptionEn: 'Establishing standardized deception behavior evaluation benchmarks based on self-monitoring mechanisms to quantify model honesty.',
     image: '/research/text-deception.jpg',
+    contentPath: 'text-deception',
     links: {
       paper: '#',
       code: '#',

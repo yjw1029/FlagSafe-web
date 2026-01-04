@@ -1,6 +1,6 @@
 # 开发规范
 
-> 版本: 1.0 | 更新日期: 2025-12-30
+> 版本: 1.1 | 更新日期: 2025-12-31
 
 [← 返回文档中心](./README.md)
 
@@ -284,6 +284,159 @@ npm run lint -- --fix
 # 检查类型错误
 npx tsc --noEmit
 ```
+
+---
+
+## 8. MDX 内容编写规范
+
+### Frontmatter 格式
+
+每个 MDX 文件必须在开头包含 frontmatter：
+
+```mdx
+---
+id: project-id         # 必填：项目 ID，需与 data/research.ts 中的 contentPath 匹配
+title: 项目标题        # 可选：中文标题
+titleEn: Project Title # 可选：英文标题
+---
+
+正文内容...
+```
+
+### 支持的 Markdown 语法
+
+#### 基础语法
+
+```markdown
+# 一级标题
+## 二级标题
+### 三级标题
+
+**粗体文本** *斜体文本*
+
+- 无序列表项 1
+- 无序列表项 2
+
+1. 有序列表项 1
+2. 有序列表项 2
+
+[链接文本](https://example.com)
+![图片](图片路径)
+
+> 引用文本
+
+\`行内代码\`
+```
+
+#### GitHub Flavored Markdown (GFM)
+
+```markdown
+| 表头1 | 表头2 |
+|-------|-------|
+| 单元格1 | 单元格2 |
+
+- [ ] 待完成任务
+- [x] 已完成任务
+```
+
+#### 代码块（语法高亮）
+
+````markdown
+\`\`\`python
+def hello_world():
+    print("Hello, World!")
+\`\`\`
+
+\`\`\`javascript
+const greeting = "Hello, World!";
+console.log(greeting);
+\`\`\`
+````
+
+#### 数学公式（LaTeX）
+
+```markdown
+行内公式：$E = mc^2$
+
+块级公式：
+$$
+\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
+$$
+```
+
+### 自定义组件使用
+
+#### HighlightBox 组件
+
+用于展示研究亮点：
+
+```mdx
+<HighlightBox>
+
+- 亮点 1：创新性的架构设计
+- 亮点 2：高效的算法实现
+- 亮点 3：完善的实验验证
+
+</HighlightBox>
+```
+
+**注意事项：**
+- `<HighlightBox>` 标签前后必须有空行
+- 内容使用标准 Markdown 列表语法
+- 支持嵌套 Markdown 格式（粗体、链接等）
+
+### MDX 文件组织规范
+
+```
+content/
+└── research/
+    ├── deception-sandbox.mdx    # 欺骗诱导沙箱
+    ├── mllm-deception.mdx        # 多模态大模型欺骗
+    └── new-project.mdx           # 新项目（文件名 = contentPath）
+```
+
+- 文件名使用 kebab-case（小写字母 + 连字符）
+- 文件名必须与 `data/research.ts` 中的 `contentPath` 字段一致
+- 每个研究项目一个独立的 MDX 文件
+
+### 添加新的 MDX 自定义组件
+
+如需添加新的自定义组件：
+
+```typescript
+// 1. 创建组件 (components/mdx/NewComponent.tsx)
+export default function NewComponent({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="custom-styling">
+      {children}
+    </div>
+  );
+}
+
+// 2. 注册组件 (components/mdx/MDXComponents.tsx)
+import NewComponent from './NewComponent';
+
+export function getMDXComponents() {
+  return {
+    HighlightBox,
+    NewComponent,  // 添加新组件
+    // ...
+  };
+}
+
+// 3. 在 MDX 文件中使用
+<NewComponent>
+内容...
+</NewComponent>
+```
+
+### MDX 编写最佳实践
+
+- **空行隔离**：自定义组件（如 `<HighlightBox>`）前后保留空行
+- **代码块语言**：始终指定代码块的语言类型以启用语法高亮
+- **公式转义**：LaTeX 公式中的特殊字符（如 `_`）无需转义
+- **图片路径**：使用相对于 `public/` 目录的绝对路径（如 `/images/diagram.png`）
+- **一致性**：保持同类项目的结构一致（标题层级、章节顺序）
 
 ---
 

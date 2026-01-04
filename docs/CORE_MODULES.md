@@ -1,6 +1,6 @@
 # 核心模块详解
 
-> 版本: 1.0 | 更新日期: 2025-12-30
+> 版本: 1.1 | 更新日期: 2025-12-31
 
 [← 返回文档中心](./README.md)
 
@@ -32,6 +32,7 @@ export const researchProjects: ResearchProject[] = [
     categoryId: 'deception',
     titleZh: '欺骗诱导沙箱',
     titleEn: 'Deception-Induced Sandbox',
+    contentPath: 'deception-sandbox',  // MDX 文件名
     // ... 更多字段
   }
 ];
@@ -96,7 +97,131 @@ export interface ResearchProject {
 
 ---
 
-## 3. 组件层 (`components/`)
+## 3. 内容层 (`content/` + `lib/mdx.ts`)
+
+### MDX 文件结构
+
+研究项目的详细内容使用 MDX 文件管理，存储在 `/content/research/` 目录：
+
+```mdx
+---
+id: deception-sandbox
+title: 欺骗诱导沙箱
+titleEn: Deception-Induced Sandbox
+---
+
+## 研究亮点
+
+<HighlightBox>
+
+- 创新性的多智能体博弈环境设计
+- 动态交互中的欺骗行为识别机制
+- 深层欺骗意图分析技术
+
+</HighlightBox>
+
+## 项目概述
+
+通过构建欺骗诱导沙箱，我们提供了一个安全的测试环境...
+
+## 技术特点
+
+### 核心算法
+
+$$
+P(deception) = \frac{1}{1 + e^{-\theta^T x}}
+$$
+
+### 代码示例
+
+\`\`\`python
+def detect_deception(agent_behavior):
+    # 欺骗检测算法
+    features = extract_features(agent_behavior)
+    return model.predict(features)
+\`\`\`
+```
+
+### MDX 加载工具 (lib/mdx.ts)
+
+```typescript
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
+
+const contentDirectory = path.join(process.cwd(), '..', 'content');
+
+export interface MDXContent {
+  content: string;
+  frontmatter: {
+    id: string;
+    title?: string;
+    [key: string]: any;
+  };
+}
+
+/**
+ * 获取研究项目的 MDX 内容
+ */
+export async function getProjectContent(projectId: string): Promise<MDXContent | null> {
+  try {
+    const filePath = path.join(contentDirectory, 'research', `${projectId}.mdx`);
+
+    if (!fs.existsSync(filePath)) {
+      console.warn(`MDX file not found: ${filePath}`);
+      return null;
+    }
+
+    const fileContents = fs.readFileSync(filePath, 'utf8');
+    const { data, content } = matter(fileContents);
+
+    return {
+      content,
+      frontmatter: data as any,
+    };
+  } catch (error) {
+    console.error(`Error loading MDX content for project ${projectId}:`, error);
+    return null;
+  }
+}
+```
+
+### 自定义 MDX 组件
+
+```typescript
+// components/mdx/HighlightBox.tsx
+export default function HighlightBox({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="bg-gray-50 p-6 rounded-lg mt-6">
+      <h3 className="text-xl font-bold text-gray-900 mb-3">研究亮点</h3>
+      <div className="space-y-2 text-gray-700">
+        {children}
+      </div>
+    </div>
+  );
+}
+```
+
+```typescript
+// components/mdx/MDXComponents.tsx
+import HighlightBox from './HighlightBox';
+
+export function getMDXComponents() {
+  return {
+    // 自定义组件
+    HighlightBox,
+    // HTML 标签重写
+    h1: (props: any) => <h1 className="text-3xl font-bold mt-8 mb-4" {...props} />,
+    h2: (props: any) => <h2 className="text-2xl font-bold mt-6 mb-3" {...props} />,
+    code: (props: any) => <code className="bg-gray-100 px-1 rounded" {...props} />,
+    // ... 更多组件映射
+  };
+}
+```
+
+---
+
+## 4. 组件层 (`components/`)
 
 ### 组件分类
 
@@ -114,6 +239,11 @@ export interface ResearchProject {
 - `PartnersSection.tsx` - 合作伙伴 Logo 展示
 - `VulnReportCTA.tsx` - 漏洞报告 CTA 按钮
 - `ResearchProjectLayout.tsx` - 研究项目详情页布局
+
+#### MDX 组件 (MDX Components)
+
+- `components/mdx/MDXComponents.tsx` - MDX 组件映射和 HTML 标签重写
+- `components/mdx/HighlightBox.tsx` - 研究亮点展示组件
 
 ### 组件示例
 
@@ -147,27 +277,62 @@ export default function ResearchSection() {
 
 ---
 
-## 4. 路由层 (`app/`)
+## 5. 路由层 (`app/`)
 
-### 动态路由示例
+### 动态路由示例（含 MDX 渲染）
 
 ```typescript
 // app/research/[category]/[project]/page.tsx
 import { getProjectById } from '@/data/research';
+import { notFound } from 'next/navigation';
 import ResearchProjectLayout from '@/components/ResearchProjectLayout';
+import { getProjectContent } from '@/lib/mdx';
+import { MDXRemote } from 'next-mdx-remote/rsc';
+import { getMDXComponents } from '@/components/mdx/MDXComponents';
+import remarkGfm from 'remark-gfm';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import rehypeHighlight from 'rehype-highlight';
 
-export default function ProjectPage({
+export default async function ProjectPage({
   params
 }: {
-  params: { category: string; project: string }
+  params: Promise<{ category: string; project: string }>
 }) {
-  const project = getProjectById(params.project);
+  const { project: projectId } = await params;
+  const project = getProjectById(projectId);
 
   if (!project) {
-    return <div>项目未找到</div>;
+    notFound();
   }
 
-  return <ResearchProjectLayout project={project} />;
+  // 加载 MDX 内容
+  const mdxContent = project.contentPath
+    ? await getProjectContent(project.contentPath)
+    : null;
+
+  return (
+    <ResearchProjectLayout project={project}>
+      <section className="mb-12">
+        {mdxContent ? (
+          <div className="prose prose-lg max-w-none">
+            <MDXRemote
+              source={mdxContent.content}
+              components={getMDXComponents()}
+              options={{
+                mdxOptions: {
+                  remarkPlugins: [remarkGfm, remarkMath],
+                  rehypePlugins: [rehypeKatex, rehypeHighlight],
+                },
+              }}
+            />
+          </div>
+        ) : (
+          <div className="text-gray-500 text-center py-8">暂无详细内容</div>
+        )}
+      </section>
+    </ResearchProjectLayout>
+  );
 }
 ```
 

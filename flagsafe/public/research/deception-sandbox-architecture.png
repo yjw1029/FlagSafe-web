@@ -1,0 +1,81 @@
+<svg width="1200" height="600" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景 -->
+  <rect width="1200" height="600" fill="#f8fafc"/>
+
+  <!-- 标题 -->
+  <text x="600" y="50" font-family="Arial, sans-serif" font-size="32" font-weight="bold" text-anchor="middle" fill="#1e293b">
+    欺骗诱导沙箱系统架构
+  </text>
+
+  <!-- 第一层：环境模拟层 -->
+  <rect x="100" y="120" width="220" height="100" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="3"/>
+  <text x="210" y="160" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#1e40af">
+    环境模拟层
+  </text>
+  <text x="210" y="185" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#475569">
+    多智能体博弈环境
+  </text>
+
+  <!-- 第二层：行为捕捉层 -->
+  <rect x="360" y="120" width="220" height="100" rx="10" fill="#dcfce7" stroke="#22c55e" stroke-width="3"/>
+  <text x="470" y="160" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#166534">
+    行为捕捉层
+  </text>
+  <text x="470" y="185" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#475569">
+    实时动作记录
+  </text>
+
+  <!-- 第三层：特征提取层 -->
+  <rect x="620" y="120" width="220" height="100" rx="10" fill="#fef3c7" stroke="#eab308" stroke-width="3"/>
+  <text x="730" y="160" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#854d0e">
+    特征提取层
+  </text>
+  <text x="730" y="185" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#475569">
+    高维特征提取
+  </text>
+
+  <!-- 第四层：检测模型层 -->
+  <rect x="880" y="120" width="220" height="100" rx="10" fill="#fce7f3" stroke="#ec4899" stroke-width="3"/>
+  <text x="990" y="160" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#9f1239">
+    检测模型层
+  </text>
+  <text x="990" y="185" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#475569">
+    深度学习模型
+  </text>
+
+  <!-- 第五层：分析可视化层 -->
+  <rect x="490" y="350" width="220" height="100" rx="10" fill="#e9d5ff" stroke="#a855f7" stroke-width="3"/>
+  <text x="600" y="390" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#6b21a8">
+    分析可视化层
+  </text>
+  <text x="600" y="415" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#475569">
+    可解释性分析
+  </text>
+
+  <!-- 箭头：层与层之间 -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <!-- 水平箭头 -->
+  <line x1="320" y1="170" x2="360" y2="170" stroke="#475569" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="580" y1="170" x2="620" y2="170" stroke="#475569" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="840" y1="170" x2="880" y2="170" stroke="#475569" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- 垂直箭头到分析层 -->
+  <line x1="470" y1="220" x2="550" y2="350" stroke="#475569" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="730" y1="220" x2="650" y2="350" stroke="#475569" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="990" y1="220" x2="680" y2="345" stroke="#475569" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- 底部说明 -->
+  <text x="600" y="530" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#64748b">
+    数据流向：环境模拟 → 行为捕捉 → 特征提取 → 检测模型 → 分析可视化
+  </text>
+
+  <!-- 版权信息 -->
+  <text x="600" y="560" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#94a3b8">
+    © 北京智源人工智能研究院 BAAI
+  </text>
+</svg>

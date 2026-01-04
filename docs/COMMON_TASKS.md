@@ -23,21 +23,129 @@ export const researchProjects: ResearchProject[] = [
     descriptionEn: 'Project description...',
     paperUrl: 'https://arxiv.org/...',
     githubUrl: 'https://github.com/...',
+    contentPath: 'new-project',  // MDX 文件名（无扩展名）
     featured: true  // 是否在首页展示
   }
 ];
+```
+
+```mdx
+// 2. 在 content/research/ 目录创建 new-project.mdx 文件
+---
+id: new-project
+title: 新研究项目
+titleEn: New Research Project
+---
+
+## 研究亮点
+
+<HighlightBox>
+
+- 研究亮点 1
+- 研究亮点 2
+- 研究亮点 3
+
+</HighlightBox>
+
+## 项目概述
+
+项目的详细内容...
+
+## 技术特点
+
+技术特点说明...
 ```
 
 ### 效果
 
 - 项目会自动出现在相应的类别页面中
 - 如果 `featured: true`，则也会在首页展示
-- 无需修改组件代码
+- 项目详情页会自动渲染 MDX 内容
 
 ### 相关文件
 
 - `data/research.ts` - 添加项目数据
+- `content/research/{项目ID}.mdx` - 创建项目详细内容
 - `types/research.ts` - 查看类型定义
+
+---
+
+## 任务 1.1: 编辑研究项目内容
+
+### 步骤
+
+1. 找到对应的 MDX 文件：`content/research/{项目ID}.mdx`
+2. 编辑 Markdown 内容（支持完整的 MDX 语法）
+
+### MDX 支持的功能
+
+#### 基础 Markdown
+
+```markdown
+# 一级标题
+## 二级标题
+### 三级标题
+
+**粗体** *斜体*
+
+- 无序列表
+- 列表项 2
+
+1. 有序列表
+2. 列表项 2
+
+[链接文本](https://example.com)
+
+![图片描述](/path/to/image.jpg)
+
+> 引用文本
+
+\`行内代码\`
+```
+
+#### 代码块（支持语法高亮）
+
+````markdown
+\`\`\`python
+def hello_world():
+    print("Hello, World!")
+\`\`\`
+
+\`\`\`javascript
+const greeting = "Hello, World!";
+console.log(greeting);
+\`\`\`
+````
+
+#### 数学公式（LaTeX）
+
+```markdown
+行内公式：$E = mc^2$
+
+块级公式：
+$$
+\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
+$$
+```
+
+#### 自定义组件
+
+```mdx
+<!-- 研究亮点展示框 -->
+<HighlightBox>
+
+- 亮点 1
+- 亮点 2
+- 亮点 3
+
+</HighlightBox>
+```
+
+### 相关文件
+
+- `content/research/` - MDX 文件目录
+- `components/mdx/MDXComponents.tsx` - 自定义组件定义
+- `components/mdx/HighlightBox.tsx` - 亮点展示组件
 
 ---
 
@@ -149,32 +257,72 @@ export const partners: Partner[] = [
 ### 步骤
 
 ```typescript
-// data/news.ts
+// 1. 准备新闻配图（如有）
+// 将图片放入 public/news/ 目录
+// 例如: public/news/news-image.jpg
+
+// 2. 在 data/news.ts 中添加新闻
 export const newsItems: NewsItem[] = [
   // ... 现有新闻
   {
-    id: 'news-3',
-    titleZh: '新闻标题',
-    titleEn: 'News Title',
-    descriptionZh: '新闻描述...',
-    descriptionEn: 'News description...',
-    date: '2025-12-30',
-    category: 'announcement',  // announcement | research | event
-    url: 'https://...'
+    id: '5',
+    title: '新闻标题',
+    summary: '新闻摘要描述，简要介绍新闻内容...',
+    date: '2025-12-31',
+    category: '研究成果',  // 或 '社区活动'
+    image: '/news/news-image.jpg',  // 可选：新闻配图
+    link: 'https://example.com/news-article'  // 可选：外部链接
   }
 ];
 ```
 
-### 新闻类别
+### 字段说明
 
-- `announcement` - 公告
-- `research` - 研究成果
-- `event` - 活动信息
+| 字段 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| `id` | string | ✅ | 新闻唯一标识符 |
+| `title` | string | ✅ | 新闻标题 |
+| `summary` | string | ✅ | 新闻摘要 |
+| `date` | string | ✅ | 发布日期（YYYY-MM-DD 格式） |
+| `category` | string | ✅ | 新闻类别（中文） |
+| `image` | string | ⚠️ | 新闻配图路径（相对于 public/） |
+| `link` | string | ⚠️ | 外部链接 URL |
+
+### 新闻类别（中文）
+
+- `研究成果` - 学术研究、论文发布
+- `社区活动` - 会议、对话、共识签署
+
+### 示例（完整）
+
+```typescript
+// 带配图的新闻
+{
+  id: '5',
+  title: '北大、智源联合发布 AI 安全报告',
+  summary: '由北京大学、智源研究院联合斯坦福、牛津等国际顶尖机构发布的报告...',
+  date: '2025-12-31',
+  category: '研究成果',
+  image: '/news/ai-safety-report.png',
+  link: 'https://mp.weixin.qq.com/s/...'
+}
+
+// 无配图的新闻
+{
+  id: '6',
+  title: 'AI 安全论坛成功举办',
+  summary: '2025 年智源大会"AI 安全论坛"由智源研究院前理事长张宏江主持...',
+  date: '2025-12-30',
+  category: '社区活动',
+  link: 'https://mp.weixin.qq.com/s/...'
+}
+```
 
 ### 相关文件
 
 - `data/news.ts` - 新闻数据
 - `types/index.ts` - NewsItem 类型定义
+- `public/news/` - 新闻配图存放目录
 
 ---
 

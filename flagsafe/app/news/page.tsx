@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react';
 
 export default function NewsPage() {
   const [mounted, setMounted] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('全部');
   const categories = ['全部', '产品发布', '行业动态', '研究成果', '社区活动', '技术更新', '安全报告'];
 
   const categoryColors: { [key: string]: string } = {
@@ -60,8 +61,9 @@ export default function NewsPage() {
             {categories.map((cat) => (
               <button
                 key={cat}
+                onClick={() => setSelectedCategory(cat)}
                 className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
-                  cat === '全部'
+                  selectedCategory === cat
                     ? 'bg-blue-600 text-white'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
@@ -76,15 +78,19 @@ export default function NewsPage() {
       {/* News List */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {newsItems.map((news) => (
-              <article
+          <div className="grid grid-cols-1 gap-6">
+            {(selectedCategory === '全部'
+              ? newsItems
+              : newsItems.filter(news => news.category === selectedCategory)
+            ).map((news) => (
+              <Link
                 key={news.id}
-                className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100"
+                href={news.link || '#'}
+                className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col sm:flex-row"
               >
                 {/* Image or Placeholder */}
                 {news.image ? (
-                  <div className="aspect-video relative overflow-hidden bg-gray-100">
+                  <div className="relative overflow-hidden bg-gray-100 w-full sm:w-80 h-48 sm:h-auto flex-shrink-0">
                     <Image
                       src={news.image}
                       alt={news.title}
@@ -93,46 +99,45 @@ export default function NewsPage() {
                     />
                   </div>
                 ) : (
-                  <div className="aspect-video bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center">
+                  <div className="bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center w-full sm:w-80 h-48 sm:h-auto flex-shrink-0">
                     <Newspaper className="w-12 h-12 text-blue-300" />
                   </div>
                 )}
 
-                <div className="p-6">
-                  {/* Category & Date */}
-                  <div className="flex items-center gap-3 mb-3">
-                    <span
-                      className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium ${
-                        categoryColors[news.category] || 'bg-gray-100 text-gray-700'
-                      }`}
-                    >
-                      <Tag className="w-3 h-3" />
-                      {news.category}
-                    </span>
-                    <span className="flex items-center gap-1 text-xs text-gray-500">
-                      <Calendar className="w-3 h-3" />
-                      {news.date}
-                    </span>
+                <div className="p-6 flex flex-col justify-between flex-1">
+                  <div>
+                    {/* Category & Date */}
+                    <div className="flex items-center gap-3 mb-3">
+                      <span
+                        className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium ${
+                          categoryColors[news.category] || 'bg-gray-100 text-gray-700'
+                        }`}
+                      >
+                        <Tag className="w-3 h-3" />
+                        {news.category}
+                      </span>
+                      <span className="flex items-center gap-1 text-xs text-gray-500">
+                        <Calendar className="w-3 h-3" />
+                        {news.date}
+                      </span>
+                    </div>
+
+                    {/* Title */}
+                    <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
+                      {news.title}
+                    </h3>
+
+                    {/* Summary */}
+                    <p className="text-sm text-gray-600 mb-4 line-clamp-2">{news.summary}</p>
                   </div>
 
-                  {/* Title */}
-                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors line-clamp-2">
-                    {news.title}
-                  </h3>
-
-                  {/* Summary */}
-                  <p className="text-sm text-gray-600 mb-4 line-clamp-3">{news.summary}</p>
-
-                  {/* Read More */}
-                  <Link
-                    href={news.link || '#'}
-                    className="inline-flex items-center text-sm font-bold text-blue-600 hover:text-blue-800 transition-colors group-hover:gap-2 gap-1"
-                  >
+                  {/* Read More Arrow */}
+                  <div className="inline-flex items-center text-sm font-bold text-blue-600 group-hover:text-blue-800 transition-colors group-hover:gap-2 gap-1 self-start">
                     阅读更多
                     <ArrowRight className="w-4 h-4 transition-all" />
-                  </Link>
+                  </div>
                 </div>
-              </article>
+              </Link>
             ))}
           </div>
 
