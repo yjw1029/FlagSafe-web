@@ -158,7 +158,7 @@ export default function Navbar() {
                                 <div className="w-52 bg-white rounded-lg shadow-lg border border-gray-200 py-2 animate-fadeIn">
                                   {item.submenu.map((subItem) => (
                                     <Link
-                                      key={subItem.href}
+                                      key={subItem.label}
                                       href={subItem.href}
                                       className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
                                     >
@@ -221,7 +221,7 @@ export default function Navbar() {
                                 <div className="w-52 bg-white rounded-lg shadow-lg border border-gray-200 py-2 animate-fadeIn">
                                   {item.submenu.map((subItem) => (
                                     <Link
-                                      key={subItem.href}
+                                      key={subItem.label}
                                       href={subItem.href}
                                       className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
                                     >
@@ -262,12 +262,6 @@ export default function Navbar() {
             <button className="text-xs text-gray-400 font-medium hover:text-gray-600 transition-colors">
               CN / EN
             </button>
-            <Link
-              href="/console"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-md text-sm font-medium transition-all shadow-sm hover:shadow-md"
-            >
-              进入控制台
-            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -308,7 +302,7 @@ export default function Navbar() {
                         <div className="pl-4 space-y-2 mt-2">
                           {item.submenu.map((subItem) => (
                             <Link
-                              key={subItem.href}
+                              key={subItem.label}
                               href={subItem.href}
                               className="block text-sm text-gray-600 hover:text-blue-600 transition-colors"
                               onClick={() => setIsMenuOpen(false)}
@@ -340,7 +334,7 @@ export default function Navbar() {
                         <div className="pl-4 space-y-2 mt-2">
                           {item.submenu.map((subItem) => (
                             <Link
-                              key={subItem.href}
+                              key={subItem.label}
                               href={subItem.href}
                               className="block text-sm text-gray-600 hover:text-blue-600 transition-colors"
                               onClick={() => setIsMenuOpen(false)}
@@ -361,14 +355,6 @@ export default function Navbar() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 新闻资讯
-              </Link>
-
-              <Link
-                href="/console"
-                className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-md text-sm font-medium text-center transition-all"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                进入控制台
               </Link>
             </div>
           </div>

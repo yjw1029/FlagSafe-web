@@ -17,7 +17,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "FlagSafe - 大模型安全共识平台",
+  title: "FlagSafe - 大模型安全平台",
   description: "构建 AGI 时代的数字免疫系统 | 践行安全共识，引领红线研究，打造全栈安全平台",
 };
 
